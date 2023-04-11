@@ -26,7 +26,6 @@
   flex-direction: column;
   text-align: center;
   padding-top: 10%;
-  
 }
 
 .appContainer input {
@@ -45,6 +44,11 @@ p {
   font-family: "PT Sans", sans-serif;
   color: #fff;
   font-weight: 300;
+  text-shadow: 2px 2px 4px rgb(0, 0, 0);
+}
+
+p {
+  font-size: 22px;
 }
 
 .videoTag {
