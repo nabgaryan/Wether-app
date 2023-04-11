@@ -69,9 +69,13 @@ function App() {
               <h1>
                 Temprature in {data.name} is {Math.round(data.main.temp) + "°C"}
               </h1>
-              <p>Weather description: {data.weather[0].description}</p>
-              <p>Wind speed: {data.wind.speed}</p>
-              <p>Pressure: {data.main.pressure}</p>
+              <p>
+                Weather description: {data.weather[0].description}
+                <br />
+                Wind speed: {data.wind.speed}
+                <br />
+                Pressure: {data.main.pressure}
+              </p>
             </div>
           ) : (
             ""

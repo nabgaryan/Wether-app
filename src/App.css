@@ -57,3 +57,24 @@ p {
   position: fixed;
   z-index: -1;
 }
+
+@media screen and (max-width: 600px) {
+  .appContainer input {
+    width: 75%;
+  }
+
+  h1,
+  h2 {
+    font-size: 22px;
+  }
+  p {
+    font-size: 17px;
+  }
+
+  .videoTag {
+    width: 1250px;
+    height: auto;
+    position: fixed;
+    z-index: -1;
+  }
+}
