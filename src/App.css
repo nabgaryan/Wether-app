@@ -77,4 +77,8 @@ p {
     position: fixed;
     z-index: -1;
   }
+
+  .appContainer {
+   width: 90%;
+  }
 }
