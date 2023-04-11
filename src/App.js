@@ -12,22 +12,28 @@ const api = {
 function App() {
   const [query, setQuery] = useState("");
   const [data, setData] = useState({});
+  const [error, setError] = useState(null);
 
   const inputHandler = (e) => {
     setQuery(e.target.value);
   };
 
-  const search = (e) => {
+  const search = async (e) => {
     if (e.key === "Enter") {
-      fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
-        .then((res) => res.json())
-        .then((res) => setData(res));
+      const request = await fetch(
+        `${api.base}weather?q=${query}&units=metric&APPID=${api.key}`
+      );
+      if(!request.ok){
+        setError('Unknown Place!')
+      }
+      const data = await request.json();
+      setData(data);
     }
   };
 
   return (
     <>
-      {!data.main && (
+           {!data.main && (
         <video className="videoTag" autoPlay loop muted>
           <source src={nature} type="video/mp4" />
         </video>
@@ -64,13 +70,14 @@ function App() {
             onChange={inputHandler}
             value={query}
           />
+           {error && !data.main && <p>{error}</p>}
           {data.main ? (
             <div>
               <h1>
                 Temprature in {data.name} is {Math.round(data.main.temp) + "°C"}
               </h1>
               <p>
-                Weather description: {data.weather[0].description}
+                Wether description: {data.weather[0].description}
                 <br />
                 Wind speed: {data.wind.speed}
                 <br />
