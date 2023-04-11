@@ -1,24 +1,84 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import nature from "./assets/nature.mp4";
+import snow from "./assets/snow.mp4";
+import warm from "./assets/warm.mp4";
+
+const api = {
+  key: "11a8d649b40cad61d92e152ed565433e",
+  base: "https://api.openweathermap.org/data/2.5/",
+};
 
 function App() {
+  const [query, setQuery] = useState("");
+  const [data, setData] = useState({});
+
+  const inputHandler = (e) => {
+    setQuery(e.target.value);
+  };
+
+  const search = (e) => {
+    if (e.key === "Enter") {
+      fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
+        .then((res) => res.json())
+        .then((res) => setData(res));
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {!data.main && (
+        <video className="videoTag" autoPlay loop muted>
+          <source src={nature} type="video/mp4" />
+        </video>
+      )}
+
+      {data.main && data.main.temp < 5 && (
+        <video className="videoTag" autoPlay loop muted>
+          <source src={snow} type="video/mp4" />
+        </video>
+      )}
+
+      {data.main && data.main.temp > 5 && data.main.temp < 15 && (
+        <video className="videoTag" autoPlay loop muted>
+          <source src={nature} type="video/mp4" />
+        </video>
+      )}
+
+      {data.main && data.main.temp > 15 && (
+        <video className="videoTag" autoPlay loop muted>
+          <source src={warm} type="video/mp4" />
+        </video>
+      )}
+
+      <div className="container">
+        <div className="appContainer">
+          <h2>
+            Insert the Location and Press Enter, <br />
+            to Find Out the Temperature
+          </h2>
+          <input
+            type="text"
+            placeholder="Search..."
+            onKeyDown={search}
+            onChange={inputHandler}
+            value={query}
+          />
+          {data.main ? (
+            <div>
+              <h1>
+                Temprature in {data.name} is {Math.round(data.main.temp) + "°C"}
+              </h1>
+              <p>Weather description: {data.weather[0].description}</p>
+              <p>Wind speed: {data.wind.speed}</p>
+              <p>Pressure: {data.main.pressure}</p>
+            </div>
+          ) : (
+            ""
+          )}
+        </div>
+      </div>
+    </>
   );
 }
 
